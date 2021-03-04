@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %} {{a.title}} {% endblock %}
+
+{% block content %}
+<div class="container">
+<a href="{% url 'articles:index' %}"><i class='fas fa-arrow-left' style='font-size:24px; color: #ffc107;'></i></a>
+<br>
+<style type="text/css">
+	img {
+		max-height: 450px;
+		max-width: 720px;
+		}
+</style>
+	{% if a.image %}
+		<img class="card-img-top" src="{{a.image.url}}">
+		{% endif %}
+
+<h5> {{a.text | linebreaks}} </h5>
+
+<p style="color: #ffc107;"> {{a.pub_date}} </p>
+{% if a.was_published_recently %}
+<em style="color: #ffc107;">Taze Habar! </em>
+{% endif %}
+<hr>
+<h3 class="text-white">Teswirler:</h3>
+<hr>
+
+	{% if comment_list %}
+	{% for c in comment_list %}
+		<div class="card">
+			<div class="card-header bg-secondary text-white">{{c.user.username}}</div>
+			<div class="card-body bg-dark">
+			<p>{{c.text | linebreaks}}</p>
+			<em class="text-white"> {{c.pub_date}} </em>
+		</div>
+		</div>
+		<br>
+	{% endfor %}
+	{% else %}
+	<p style=" color: #ffc107;">Teswirler hali yok, birnji bol! ;)</p>
+	{% endif %}
+
+<hr>
+{% if user.is_authenticated %}
+<form action="{% url 'articles:leave_comment' a.id %}" class="form-control bg-secondary text-white" method="POST">
+	{% csrf_token %}
+	<h4>{{user.username}}</h4>
+	<textarea class="form-control bg-dark text-white" name="text"></textarea>
+	<br>
+	<button class="btn btn-outline-warning pl-2 pr-2" type="submit">Gos</button>
+</form>
+<br>
+{% else %}
+<p>Teswir yazmak ucin, sayta giris etmeli</p>
+{% endif %}
+</div>
+<br>
+<br>
+{% endblock %}

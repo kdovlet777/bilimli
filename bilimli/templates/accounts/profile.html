@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} {% if user == user1 %}Menin Profilim {% else %} {{user1.username}}'s Profile {% endif %}{% endblock %}
+
+{% block content %}
+<h2 style="font-family: Alegreya Sans SC;" class="text-white">Ulanyjy ady: {{user1.username}}</h2>
+<h3 class="text-white"> Doly ady: {{user1.profile.full_name}} </h3>
+<h3 class="text-white"> Welaýat: {{user1.profile.welayat}} </h3>
+<h3 class="text-white"> Klasy: {{user1.profile.clasy}}</h3>
+<h2 class="text-white"> Rating: {{user1.profile.rating}}</h2>
+{% if user == user1 %}<a href="{% url 'edit' %}" style="text-decoration: none;"><button type="button" class="btn btn-warning">Uytget</button></a>{% endif %}
+{% endblock %}

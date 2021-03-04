@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} {{q.title}} {% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+	<a href="{% url 'questions:index' %}"><i class='fas fa-arrow-left' style='font-size:24px'></i></a>
+<br>
+	<p class="text-white">{{q.pub_date}}</p>
+	<h3 class="text-white">{{q.text | linebreaks}}</h3>
+	{% if q.solved %}
+	<h4 style="color: #bdf564; text-transform: uppercase;">Çözüldi - {{q.solver}} tarapyndan </h4> 
+	{% endif %}
+	<hr class="bg-light">
+	<h3 style="color: #ffc107;">Jogaplar ({{q.comnum}} sany):</h3>
+	<hr class="bg-light">
+	{% if answer_list %}
+	{% for answer in answer_list %}
+	{% if answer.correct %}
+		<div class="card" style="background-color: #99c84f;">
+			<div class="card-header">{{answer.user.username}}</div>
+			<div class="card-body ">
+		{{answer.text | linebreaks}}
+			<em class="text-black"> {{answer.pub_date}} </em>
+		</div>
+		</div>
+		<br>
+		{% else %}
+		<div class="card">
+			<div class="card-header bg-secondary text-white">{{answer.user.username}}</div>
+			<div class="card-body bg-dark">
+			<p class="h6">{{answer.text | linebreaks}}</p>
+			<em class="text-white"> {{answer.pub_date}} </em>
+		</div>
+		</div>
+		<br>
+		{% endif %}
+	{% endfor %}
+	{% else %}
+	<h4>Jogaplar hali gelenak, birinji bolun! ;)</h4>
+	{% endif %}
+	<hr class="bg-light">
+	{% if user.is_authenticated %}
+	<form class="form-control bg-secondary text-white" action="{% url 'questions:leave_answer' q.id %}" method="POST">
+		{% csrf_token %}
+			<h4>{{user.username}}</h4>
+			<textarea type="text" class="form-control bg-dark text-white" name="text" placeholder="Jogabynyz"></textarea>
+			<br>
+		<button type="submit" class="btn btn-warning pl-2 pr-2">Jogap gos</button>
+	</form>
+	{% else %}
+	<p style="font-size: 24px;">Jogap yazmak ucin, sayta girin</p>
+	{% endif %}
+</div>
+{% endblock %}

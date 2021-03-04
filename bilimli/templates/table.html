@@ -1,0 +1,25 @@
+  <div class="col-sm-4 mt-5 pt-5 ">
+ 		<h4 style="color: #ffc107; text-align: center;"><i class="fa fa-arrow-up" aria-hidden="true"></i>
+                  Top Users   <i class='fa fa-users ' style='font-size:28px; color: black;'></i></h4>
+ 		<table class="table table-hover">
+ 			<thead>
+ 				<tr style="color: #ffc107;">
+ 					<th scope="col">#</th>
+ 					<th scope="col">Username</th>
+ 					<th scope="col">Rating</th>
+ 				</tr>
+ 			</thead>
+ 			<tbody>
+ 				<script type="text/javascript">var x=0;</script>
+ 				{% for u in top_users %}
+ 				{% if user == u.user %}<tr style="background-color: #ffc107;color: black;">{%else%}
+          <tr style="color: white;"> {% endif %}
+ 					<th scope="row"><script type="text/javascript">x+=1;document.write(x);</script></th>
+ 					<td><a style=" {% if user == u.user %} color: black; {% else %}color: white;{% endif %} text-decoration: none;" href="{% url 'profile' u.user.username %}">{{u.user.username}}</a></td>
+ 					<td>{{u.rating}}</td>
+ 				</tr>
+ 				{% endfor %}
+
+ 			</tbody>
+ 		</table>
+ 		</div>

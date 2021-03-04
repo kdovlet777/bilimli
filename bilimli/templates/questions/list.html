@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+	Soraglar
+
+{% endblock %}
+{% block content %}
+{% for q in page_obj %}
+<div class="card text-center">
+  <div class="card-header text-white {% if q.solved %} bg-success {% else %} bg-secondary {% endif %}" >
+    {{q.title}}
+  </div>
+  <div class="card-body bg-dark">
+    <p class="card-text ">{{q.preview}}</p>
+    <a href="{% url 'questions:detail' q.id %}" class="btn btn-warning">Read more</a>
+  </div>
+  <div class="card-footer bg-secondary text-white">
+    {{q.pub_date}}
+    {% if q.solved %}
+    <p>Çözüldi - {{q.solver.username}} tarapyndan</p>
+    {% endif %}
+    {% if q.was_published_recently %} - <em>Taze sorag!</em>{% endif %}
+  </div>
+</div>
+<style type="text/css">
+  .page-link{
+    background-color: black;
+    color:white;
+  }
+  .page-link:hover{
+    background-color: #ffc107;
+    color:black;
+  }
+  .page-item.active .page-link {
+    z-index: 3;
+    background-color:  #ffc107;
+    border-color:  #ffc107;
+    color:black;
+}
+.page-item.disabled .page-link {
+    color: #fff;
+    pointer-events: none;
+    cursor: auto;
+    background-color: #40464d ;
+    border-color: #dee2e6;
+}
+  </style>
+<br>
+{% endfor %}
+
+ <ul class="pagination justify-content-center ">
+  {% if page_obj.has_previous %}
+   <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+   {% else %}
+   <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+  {% endif %}
+
+  {% for page in pages %}
+ 
+   {% if page_obj.number == page %}
+   <li class="page-item active"><a class="page-link" href="#">{{page}}</a></li>
+   {% else %}
+   <li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+  {% endif %}
+  
+ {% endfor %}
+ 
+ {% if page_obj.has_next %}
+  <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+  {% else %}
+  <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+  {% endif %}
+
+ </ul> 
+
+{% endblock %}
