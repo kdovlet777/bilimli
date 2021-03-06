@@ -7,7 +7,7 @@ class Question(models.Model):
 	title = models.CharField('Title', max_length = 50)
 	text = models.TextField('Text')
 	preview = models.CharField('Preview', max_length = 50, blank = True, null = True)
-	pub_date = models.DateTimeField('Publiced Date',default = timezone.now())
+	pub_date = models.DateTimeField('Publiced Date',auto_now_add = True)
 	solved = models.BooleanField('solved', default = False)
 	solver = models.ForeignKey(User,blank = True, null = True, on_delete = models.SET_NULL)
 	comnum = models.IntegerField('Comment number',default = 0)
@@ -23,7 +23,7 @@ class Answer(models.Model):
 	question = models.ForeignKey(Question, on_delete = models.CASCADE)
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	text = models.TextField('Comment text')
-	pub_date = models.DateTimeField('Comment pubdate', default = timezone.now())
+	pub_date = models.DateTimeField('Comment pubdate', auto_now_add = True)
 	correct = models.BooleanField('Correct', default = False)
 
 	def __str__(self):
